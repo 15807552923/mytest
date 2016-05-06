@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body onload="browser();">
+<script type="text/javascript">
+var browser = (function(){
+  var userAgent = navigator.userAgent,
+  ua = userAgent.toLowerCase(),
+  browserList = {
+    msie : /(?:msie\s|trident.*rv:)([\w.]+)/i,
+    firefox : /Firefox\/([\w.]+)/i,
+    chrome : /Chrome\/([\w.]+)/i,
+    safari : /version\/([\w.]+).*Safari/i,
+    opera : /(?:OPR\/|Opera.+version\/)([\w.]+)/i
+  },
+  kernels = {
+    MSIE: /(compatible;\smsie\s|Trident\/)[\w.]+/i,
+    Camino: /Camino/i,
+    KHTML: /KHTML/i,
+    Presto: /Presto\/[\w.]+/i,
+    Gecko : /Gecko\/[\w.]+/i,
+    WebKit: /AppleWebKit\/[\w.]+/i
+  },
+  browser = {
+    kernel : 'unknow',
+    version : 'unknow'
+  }
+
+  // 检测浏览器
+  for(var i in browserList){
+    var matchs = ua.match(browserList[i]);
+    browser[i] = matchs ? true : false;
+    if(matchs){
+      browser.version = matchs[1];
+    }
+  }
+
+  // 检测引擎
+  for(var i in kernels){
+    var matchs = ua.match(kernels[i]);
+    if(matchs){
+      browser.kernel = matchs[0];
+    }
+  }
+
+  // 系统
+  var os = ua.match(/(Windows\sNT\s|Mac\sOS\sX\s|Android\s|ipad.*\sos\s|iphone\sos\s)([\d._-]+)/i);
+  browser.os = os!==null ? os[0] : false;
+
+  // 是否移动端
+  browser.mobile = ua.match(/Mobile/i)!==null ? true : false;
+  var i = document.getElementById("d");
+  i.innerHTML = browser.mobile;
+  var f = document.getElementById("f");
+  i.innerHTML = browser.version;
+  return browser;
+}());
+
+</script>
+
+<h2 id="d"></h2>
+<h2 id = "f"></h2>
+<h2></h2>
+<h2></h2>
+</body>
+</html>
